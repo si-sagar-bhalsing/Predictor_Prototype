@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Match_Predictor"
 include(":app")
- 
+include(":match_predictor")

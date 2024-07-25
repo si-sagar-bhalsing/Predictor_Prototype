@@ -1,8 +1,11 @@
 package com.si.fanalytics.match_predictor
 
 data class Match(
+    val matchId: Int,
     val homeTeam: String,
     val homeTeamFlag: Int,
+    var predictedHomeScore: Int?,
+    var predictedAwayScore: Int?,
     val homeScore: Int,
     val awayTeam: String,
     val awayTeamFlag: Int,

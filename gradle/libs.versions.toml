@@ -13,6 +13,8 @@ ksp = "1.9.22-1.0.17"
 
 daggerHilt = "2.50"
 hiltNavigation = "1.1.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 
 [libraries]
@@ -37,6 +39,8 @@ accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pa
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

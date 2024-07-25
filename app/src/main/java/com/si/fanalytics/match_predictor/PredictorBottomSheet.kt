@@ -1,5 +1,6 @@
 package com.si.fanalytics.match_predictor
 
+import MatchPredictorViewModel
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -44,9 +45,9 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import kotlinx.coroutines.launch
 
@@ -56,7 +57,9 @@ fun BottomSheetLayout(
     isBottomSheetOpen: Boolean,
     onHideBottomSheet: () -> Unit,
     onShowBottomSheet: () -> Unit,
-    content: @Composable () -> Unit
+    match: Match,
+    content: @Composable () -> Unit,
+    onSaveClick: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
@@ -81,7 +84,9 @@ fun BottomSheetLayout(
         sheetContent = {
             BottomSheetContent(
                 modalSheetState = modalSheetState,
-                onHide = onHideBottomSheet
+                onHide = onHideBottomSheet,
+                match = match,
+                onSaveClick = onSaveClick
             )
         }
     ) {
@@ -93,8 +98,17 @@ fun BottomSheetLayout(
 @Composable
 fun BottomSheetContent(
     modalSheetState: ModalBottomSheetState,
-    onHide: () -> Unit
+    onHide: () -> Unit,
+    match: Match,
+    onSaveClick: () -> Unit
 ) {
+    val viewModel: MatchPredictorViewModel = remember {
+        ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
+    }
+    var selectedIndex by remember { mutableStateOf(Pair(0, 0)) }  // Manage selected index state
+    var selectedHomeIndex by remember { mutableStateOf(0) }
+    var selectedAwayIndex by remember { mutableStateOf(0) }
+
     Column(
         modifier = Modifier
             .background(color = Color(0xFF0B1E60))
@@ -111,7 +125,7 @@ fun BottomSheetContent(
             Icon(
                 painter = painterResource(id = R.drawable.ic_add),
                 contentDescription = "Close",
-                tint = Color.White,
+                tint = White,
                 modifier = Modifier.rotate(45f)
             )
         }
@@ -119,28 +133,43 @@ fun BottomSheetContent(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            //horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TeamInfo(team = "Germany", flag = R.drawable.ic_flag)
+            TeamInfo(team = match.homeTeam, flag = match.homeTeamFlag)
             Spacer(modifier = Modifier.width(10.dp))
             Column {
-                PredictScoreBox()
+                PredictScoreBox(
+                    selectedIndex = selectedHomeIndex,
+                    onItemSelected = { index ->
+                        selectedHomeIndex = index
+                        selectedIndex = selectedIndex.copy(first = index) // Update selected index
+                        viewModel.updatePrediction(selectedIndex.first, selectedIndex.second)
+                    }
+                )
                 Spacer(modifier = Modifier.height(25.dp))
             }
 
             Spacer(modifier = Modifier.width(10.dp))
             Column {
-                PredictScoreBox()
+                PredictScoreBox(
+                    selectedIndex = selectedAwayIndex,
+                    onItemSelected = { index ->
+                        selectedAwayIndex = index
+                        selectedIndex = selectedIndex.copy(second = index)
+                        viewModel.updatePrediction(selectedIndex.first, selectedIndex.second)
+                    }
+                )
                 Spacer(modifier = Modifier.height(25.dp))
             }
-            Spacer (modifier = Modifier.width(10.dp))
-            TeamInfo(team = "Germany", flag = R.drawable.ic_flag)
-
+            Spacer(modifier = Modifier.width(10.dp))
+            TeamInfo(team = match.awayTeam, flag = match.awayTeamFlag)
         }
 
         Button(
-            onClick = onHide,
+            onClick = {
+                onSaveClick()
+                onHide()
+            },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFC107)),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -148,7 +177,13 @@ fun BottomSheetContent(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = onHide,
+            onClick = {
+                selectedHomeIndex = 0
+                selectedAwayIndex = 0
+                selectedIndex = Pair(0, 0) // Reset selectedIndex
+                viewModel.updatePrediction(null, null)
+                onHide()
+            },
             colors = ButtonDefaults.buttonColors(backgroundColor = Transparent),
             modifier = Modifier.fillMaxWidth(),
             border = BorderStroke(1.dp, Highlight)
@@ -156,20 +191,20 @@ fun BottomSheetContent(
             Text(text = "Delete Prediction", color = Highlight)
         }
         Spacer(modifier = Modifier.height(8.dp))
-
     }
 }
 
-
 @Composable
-fun PredictScoreBox() {
-    // State to keep track of the selected item
-    var selectedItem by remember { mutableStateOf(0) }
+fun PredictScoreBox(
+    selectedIndex: Int,
+    onItemSelected: (Int) -> Unit
+) {
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selectedItem) {
-        listState.animateScrollToItem(selectedItem)
+    LaunchedEffect(selectedIndex) {
+        listState.animateScrollToItem(selectedIndex)
     }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         LazyColumn(
             state = listState,
@@ -186,7 +221,9 @@ fun PredictScoreBox() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { selectedItem = index }
+                        .clickable {
+                            onItemSelected(index)  // Notify parent about the selected item
+                        }
                         .background(Transparent),
                     contentAlignment = Alignment.Center
                 ) {
@@ -201,18 +238,10 @@ fun PredictScoreBox() {
                 }
             }
         }
-        Column{
-            PredictScoreBox()
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewPredictScoreBox() {
-    PredictScoreBox()
-}
+
+
 
 

@@ -1,7 +1,5 @@
 package com.si.fanalytics.match_predictor
 
-import MatchPredictorViewModel
-import android.util.Log.v
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,22 +20,19 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
 
 @Composable
-fun MatchInfoCard(match: Match,onClick: () -> Unit) {
+fun MatchInfoCard(match: Match, onClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -62,7 +57,14 @@ fun MatchInfoCard(match: Match,onClick: () -> Unit) {
             ) {
                 TeamInfo(team = match.homeTeam, flag = match.homeTeamFlag)
                 Spacer(modifier = Modifier.width(10.dp))
-                ScoreBox(homeScore = match.homeScore, awayScore = match.awayScore, isLive = match.isLive,onClick)
+                ScoreBox(
+                    homeScore = match.homeScore,
+                    awayScore = match.awayScore,
+                    predictHomeScore = match.predictedHomeScore,
+                    predictAwayScore = match.predictedAwayScore,
+                    isLive = match.isLive,
+                    onClick = { onClick(match.matchId) }
+                )
                 Spacer(modifier = Modifier.width(10.dp))
                 TeamInfo(team = match.awayTeam, flag = match.awayTeamFlag)
             }
@@ -105,12 +107,8 @@ fun TeamInfo(team: String, flag: Int) {
 }
 
 @Composable
-fun ScoreBox(homeScore: Int, awayScore: Int, isLive: Boolean,onClick: () -> Unit) {
-    val viewModel: MatchPredictorViewModel = remember {
-        ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
-    }
-    val predictHomeScore = viewModel.matchPrediction.value.predictHomeScore
-    val predictAwayScore = viewModel.matchPrediction.value.predictAwayScore
+fun ScoreBox(homeScore: Int, awayScore: Int, predictHomeScore: Int?, predictAwayScore: Int?, isLive: Boolean, onClick: () -> Unit) {
+
     val boxNull = predictHomeScore == null || predictAwayScore == null
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -130,9 +128,6 @@ fun ScoreBox(homeScore: Int, awayScore: Int, isLive: Boolean,onClick: () -> Unit
 
 @Composable
 fun PredictScoreBox(isLive: Boolean, predictScore: String?, boxNull: Boolean, onClick: () -> Unit) {
-    val viewModel: MatchPredictorViewModel = remember {
-        ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
-    }
     val boxColor = if (isLive) Highlight else TextColor
     val boxIcon = if (isLive) R.drawable.ic_add else R.drawable.ic_minuss
     Box(
@@ -141,7 +136,7 @@ fun PredictScoreBox(isLive: Boolean, predictScore: String?, boxNull: Boolean, on
             .clip(RoundedCornerShape(5.dp))
             .border(1.dp, boxColor, RoundedCornerShape(5.dp))
             .clickable {
-                onClick()
+                if (isLive) onClick()
             }
     ) {
         if (boxNull) {
@@ -173,6 +168,8 @@ val match = Match(
     homeTeam = "Germany",
     homeTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
     homeScore = 5,
+    predictedAwayScore = null,
+    predictedHomeScore = null,
     awayTeam = "Scotland",
     awayTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
     awayScore = 1,
@@ -183,5 +180,6 @@ val match = Match(
         Prediction(score = "2 - 1", percentage = 11),
 
         ),
-    isLive = true
+    isLive = true,
+    matchId = 111
 )

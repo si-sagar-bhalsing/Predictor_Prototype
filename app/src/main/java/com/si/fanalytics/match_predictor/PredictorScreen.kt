@@ -2,7 +2,6 @@ package com.si.fanalytics.match_predictor
 
 import MatchPredictorViewModel
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,17 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +27,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -118,17 +110,26 @@ fun MatchDayScreen(modifier: Modifier) {
         ) { page ->
             LazyColumn(modifier = Modifier.padding(16.dp)) {
                 items(dummyMatchDays[page].matches) { match ->
-                    MatchInfoCard(match, { viewModel.showBottomSheet() })
+                    MatchInfoCard(match, { matchId ->
+                        viewModel.setMatchId(matchId)
+                        viewModel.showBottomSheet()
+                    })
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
     }
-    BottomSheetLayout(
-        isBottomSheetOpen = isBottomSheetOpen,
-        onHideBottomSheet = { viewModel.hideBottomSheet() },
-        onShowBottomSheet = { viewModel.showBottomSheet() }
-    ) {
-
+    viewModel.getMatchById(viewModel.matchId.value)?.let {
+        BottomSheetLayout(
+            isBottomSheetOpen = isBottomSheetOpen,
+            onHideBottomSheet = { viewModel.hideBottomSheet() },
+            onShowBottomSheet = { viewModel.showBottomSheet() },
+            match = it,
+            onSaveClick = {
+                match.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
+                match.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore
+            },
+            content = {}
+        )
     }
 }

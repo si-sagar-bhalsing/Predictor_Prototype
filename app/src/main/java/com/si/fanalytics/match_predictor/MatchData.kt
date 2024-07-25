@@ -17,7 +17,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 1", percentage = 17),
                     Prediction(score = "3 - 0", percentage = 16)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 100,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Hungary",
@@ -31,7 +34,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "0 - 1", percentage = 40)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 101,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             // More matches added here
             Match(
@@ -46,7 +52,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 3", percentage = 40),
                     Prediction(score = "3 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 102,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Portugal",
@@ -60,7 +69,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 35),
                     Prediction(score = "2 - 1", percentage = 40)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 103,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Brazil",
@@ -74,7 +86,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "4 - 3", percentage = 25),
                     Prediction(score = "3 - 4", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 104,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Netherlands",
@@ -88,7 +103,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "0 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 105,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Croatia",
@@ -102,7 +120,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 3", percentage = 50),
                     Prediction(score = "2 - 2", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 106,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Mexico",
@@ -116,7 +137,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "2 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 107,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Chile",
@@ -130,7 +154,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 0", percentage = 30),
                     Prediction(score = "3 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 108,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Japan",
@@ -144,7 +171,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 40),
                     Prediction(score = "1 - 0", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 109,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             )
         )
     ),
@@ -164,7 +194,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "4 - 5", percentage = 50),
                     Prediction(score = "0 - 1", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 200,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Italy",
@@ -178,9 +211,12 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 50),
                     Prediction(score = "1 - 1", percentage = 20)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 201,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
-            // More matches added here
+// More matches added here
             Match(
                 homeTeam = "England",
                 homeTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
@@ -193,7 +229,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 3", percentage = 40),
                     Prediction(score = "3 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 202,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Portugal",
@@ -207,7 +246,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 35),
                     Prediction(score = "2 - 1", percentage = 40)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 203,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Brazil",
@@ -221,7 +263,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "4 - 3", percentage = 25),
                     Prediction(score = "3 - 4", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 204,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Netherlands",
@@ -235,7 +280,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "0 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 205,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Croatia",
@@ -249,7 +297,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 3", percentage = 50),
                     Prediction(score = "2 - 2", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 206,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Mexico",
@@ -263,7 +314,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "2 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 207,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Chile",
@@ -277,7 +331,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 0", percentage = 30),
                     Prediction(score = "3 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 208,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Japan",
@@ -291,7 +348,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 40),
                     Prediction(score = "1 - 0", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 209,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             )
         )
     ),
@@ -311,7 +371,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 8", percentage = 50),
                     Prediction(score = "1 - 5", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 300,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Italy",
@@ -325,9 +388,12 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 50),
                     Prediction(score = "1 - 1", percentage = 20)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 301,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
-            // More matches added here
+// More matches added here
             Match(
                 homeTeam = "England",
                 homeTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
@@ -340,7 +406,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 3", percentage = 40),
                     Prediction(score = "3 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 302,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Portugal",
@@ -354,7 +423,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 35),
                     Prediction(score = "2 - 1", percentage = 40)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 303,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Brazil",
@@ -368,7 +440,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "4 - 3", percentage = 25),
                     Prediction(score = "3 - 4", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 304,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Netherlands",
@@ -382,7 +457,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "0 - 2", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 305,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Croatia",
@@ -396,7 +474,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 3", percentage = 50),
                     Prediction(score = "2 - 2", percentage = 25)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 306,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Mexico",
@@ -410,7 +491,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "2 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 307,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Chile",
@@ -424,7 +508,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 0", percentage = 30),
                     Prediction(score = "3 - 1", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 308,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Japan",
@@ -438,7 +525,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 40),
                     Prediction(score = "1 - 0", percentage = 30)
                 ),
-                isLive = false
+                isLive = false,
+                matchId = 309,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             )
         )
     ),
@@ -458,7 +548,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 1", percentage = 50),
                     Prediction(score = "0 - 1", percentage = 25)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 400,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Italy",
@@ -472,9 +565,12 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 50),
                     Prediction(score = "1 - 1", percentage = 20)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 401,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
-            // More matches added here
+// More matches added here
             Match(
                 homeTeam = "England",
                 homeTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
@@ -487,7 +583,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 3", percentage = 40),
                     Prediction(score = "3 - 2", percentage = 30)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 402,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Portugal",
@@ -501,7 +600,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 35),
                     Prediction(score = "2 - 1", percentage = 40)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 403,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Brazil",
@@ -515,7 +617,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "4 - 3", percentage = 25),
                     Prediction(score = "3 - 4", percentage = 25)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 404,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Netherlands",
@@ -529,7 +634,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "0 - 2", percentage = 30)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 405,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Croatia",
@@ -543,7 +651,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 3", percentage = 50),
                     Prediction(score = "2 - 2", percentage = 25)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 406,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Mexico",
@@ -557,7 +668,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "1 - 2", percentage = 40),
                     Prediction(score = "2 - 1", percentage = 30)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 407,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Chile",
@@ -571,7 +685,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "3 - 0", percentage = 30),
                     Prediction(score = "3 - 1", percentage = 30)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 408,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             ),
             Match(
                 homeTeam = "Japan",
@@ -585,7 +702,10 @@ val dummyMatchDays = listOf(
                     Prediction(score = "0 - 1", percentage = 40),
                     Prediction(score = "1 - 0", percentage = 30)
                 ),
-                isLive = true
+                isLive = true,
+                matchId = 409,
+                predictedAwayScore = null,
+                predictedHomeScore = null
             )
         )
     )
