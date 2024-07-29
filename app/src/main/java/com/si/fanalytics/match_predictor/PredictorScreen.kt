@@ -1,6 +1,7 @@
 package com.si.fanalytics.match_predictor
 
 import MatchPredictorViewModel
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,13 +36,18 @@ import com.google.accompanist.pager.rememberPagerState
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.PredictorScreenBg
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 //@Preview
 @Composable
 fun MatchDayScreen(modifier: Modifier) {
+    var data = dummyMatchDays
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState()
     // As rememberPagerState is not directly observable in the way LiveData or StateFlow is
@@ -86,7 +92,7 @@ fun MatchDayScreen(modifier: Modifier) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            dummyMatchDays.forEachIndexed { index, matchDay ->
+            data.forEachIndexed { index, matchDay ->
                 Tab(
                     selected = selectedTabIndex == index,
                     onClick = {
@@ -100,36 +106,55 @@ fun MatchDayScreen(modifier: Modifier) {
         }
 
         Text(
-            text = dummyMatchDays[selectedTabIndex].dateRange,
+            text = data[selectedTabIndex].dateRange,
             color = TextColor,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp)
         )
         HorizontalPager(
             state = pagerState,
-            count = dummyMatchDays.size,
+            count = data.size,
         ) { page ->
             LazyColumn(modifier = Modifier.padding(16.dp)) {
-                items(dummyMatchDays[page].matches) { match ->
-                    MatchInfoCard(match, { matchId ->
+                items(data[page].matches) { match ->
+                    MatchInfoCard(match) { matchId ->
                         viewModel.setMatchId(matchId)
                         viewModel.showBottomSheet()
-                    })
+                        viewModel.setPage(page)
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
     }
-    viewModel.getMatchById(viewModel.matchId.value)?.let {
+    viewModel.getMatchById(viewModel.matchId.value)?.let { it ->
         BottomSheetLayout(
             isBottomSheetOpen = isBottomSheetOpen,
             onHideBottomSheet = { viewModel.hideBottomSheet() },
             onShowBottomSheet = { viewModel.showBottomSheet() },
             match = it,
-            onSaveClick = {
-                match.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
-                match.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore
+            onIndexPass = {
+                Log.d("index : ", it.toString())
+                viewModel.setPredictHomeScore(it.first)
+                viewModel.setPredictAwayScore(it.second)
+                Log.d("predictHomeScore", viewModel.predictHomeScore.value.toString())
+                Log.d("predictAwayScore", viewModel.predictAwayScore.value.toString())
             },
-            content = {}
-        )
+            onSaveClick = {
+                GlobalScope.launch(Dispatchers.Main) {
+                   delay(3000)
+                Log.d("MatchId", "MainScreen_matchId :" + viewModel.matchId.value.toString())
+                Log.d("MatchId", "MainScreen_PredictHomeScore :" + viewModel.predictHomeScore.value.toString())
+                    Log.d("MatchId", "MainScreen_PredictAwayScore :" + viewModel.predictAwayScore.value.toString())
+
+                    data[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore = 8
+                //viewModel.matchPrediction.value.predictHomeScore
+                    //Log.d("MatchId", "MainScreen_value :" + value.toString())
+                Log.d("predictHomeScore", dummyMatchDays[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore.toString())
+                //it.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
+                //it.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore
+            }},
+            content = {},
+
+            )
     }
 }

@@ -59,9 +59,11 @@ fun BottomSheetLayout(
     onShowBottomSheet: () -> Unit,
     match: Match,
     content: @Composable () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
+    onIndexPass: (Pair<Int, Int>) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+    var selectedIndex by remember { mutableStateOf(Pair(0, 0)) }  // Manage selected index state
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Expanded,
         confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
@@ -86,7 +88,12 @@ fun BottomSheetLayout(
                 modalSheetState = modalSheetState,
                 onHide = onHideBottomSheet,
                 match = match,
-                onSaveClick = onSaveClick
+                onSaveClick = onSaveClick,
+                onIndexPass = {
+                    selectedIndex = selectedIndex.copy(first = it.first)
+                    selectedIndex = selectedIndex.copy(second = it.second)
+                    onIndexPass(selectedIndex)
+                }
             )
         }
     ) {
@@ -100,11 +107,11 @@ fun BottomSheetContent(
     modalSheetState: ModalBottomSheetState,
     onHide: () -> Unit,
     match: Match,
-    onSaveClick: () -> Unit
-) {
-    val viewModel: MatchPredictorViewModel = remember {
-        ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
-    }
+    onSaveClick: () -> Unit,
+    onIndexPass :(Pair<Int,Int>) -> Unit,
+
+    ) {
+
     var selectedIndex by remember { mutableStateOf(Pair(0, 0)) }  // Manage selected index state
     var selectedHomeIndex by remember { mutableStateOf(0) }
     var selectedAwayIndex by remember { mutableStateOf(0) }
@@ -143,7 +150,6 @@ fun BottomSheetContent(
                     onItemSelected = { index ->
                         selectedHomeIndex = index
                         selectedIndex = selectedIndex.copy(first = index) // Update selected index
-                        viewModel.updatePrediction(selectedIndex.first, selectedIndex.second)
                     }
                 )
                 Spacer(modifier = Modifier.height(25.dp))
@@ -156,7 +162,6 @@ fun BottomSheetContent(
                     onItemSelected = { index ->
                         selectedAwayIndex = index
                         selectedIndex = selectedIndex.copy(second = index)
-                        viewModel.updatePrediction(selectedIndex.first, selectedIndex.second)
                     }
                 )
                 Spacer(modifier = Modifier.height(25.dp))
@@ -168,6 +173,7 @@ fun BottomSheetContent(
         Button(
             onClick = {
                 onSaveClick()
+                onIndexPass(selectedIndex)
                 onHide()
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFC107)),
@@ -180,8 +186,7 @@ fun BottomSheetContent(
             onClick = {
                 selectedHomeIndex = 0
                 selectedAwayIndex = 0
-                selectedIndex = Pair(0, 0) // Reset selectedIndex
-                viewModel.updatePrediction(null, null)
+                selectedIndex = Pair(0, 0) // Reset selectedIndex/.
                 onHide()
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Transparent),
