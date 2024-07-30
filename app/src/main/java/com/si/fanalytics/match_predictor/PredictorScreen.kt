@@ -33,14 +33,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.si.fanalytics.match_predictor.data.MatchViewModel
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.PredictorScreenBg
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
+import com.si.fanalytics.match_predictor.viewmodel.MatchViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -150,11 +147,11 @@ fun MatchDayScreen(modifier: Modifier) {
 
                 Log.d("MatchId", "MainScreen_matchId :" + viewModel.matchId.value.toString())
                 Log.d("MatchId", "MainScreen_PredictHomeScore :" + viewModel.predictHomeScore.value.toString())
-                    Log.d("MatchId", "MainScreen_PredictAwayScore :" + viewModel.predictAwayScore.value.toString())
+                Log.d("MatchId", "MainScreen_PredictAwayScore :" + viewModel.predictAwayScore.value.toString())
 
-                    data[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore = 8
+                data[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore = 8
                 //viewModel.matchPrediction.value.predictHomeScore
-                    //Log.d("MatchId", "MainScreen_value :" + value.toString())
+                //Log.d("MatchId", "MainScreen_value :" + value.toString())
                 Log.d("predictHomeScore", dummyMatchDays[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore.toString())
                 //it.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
                 //it.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore

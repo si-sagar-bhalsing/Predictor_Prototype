@@ -1,12 +1,9 @@
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.State
-import androidx.lifecycle.MutableLiveData
 import com.si.fanalytics.match_predictor.Match
 import com.si.fanalytics.match_predictor.dummyMatchDays
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 
 class MatchPredictorViewModel : ViewModel() {
@@ -33,12 +30,14 @@ class MatchPredictorViewModel : ViewModel() {
 
     fun setPredictHomeScore(score: Int?) {
         _predictHomeScore.value = score
-        Log.d("MatchId","viewModelpredictHomeScore "+predictHomeScore.value)
+        Log.d("MatchId", "viewModelpredictHomeScore " + predictHomeScore.value)
 
     }
+
     fun setPredictAwayScore(score: Int?) {
         _predictAwayScore.value = score
     }
+
     fun showBottomSheet() {
         _isBottomSheetVisible.value = true
     }
@@ -57,7 +56,8 @@ class MatchPredictorViewModel : ViewModel() {
         _matchId.value = id
         Log.d("MatchPredictorViewModel", "Match data updated: ${matchId.value}")
     }
-    fun setPage(page:Int){
+
+    fun setPage(page: Int) {
         _currentPage.value = page
     }
 
@@ -73,6 +73,7 @@ class MatchPredictorViewModel : ViewModel() {
         _matchId.value = null
         _matchPrediction.value = Prediction(null, null)
     }
+
     fun getMatchById(id: Int?): Match? {
         for (matchDay in dummyMatchDays) {
             for (match in matchDay.matches) {
@@ -83,5 +84,6 @@ class MatchPredictorViewModel : ViewModel() {
         }
         return null
     }
+
     data class Prediction(val predictHomeScore: Int?, val predictAwayScore: Int?)
 }
