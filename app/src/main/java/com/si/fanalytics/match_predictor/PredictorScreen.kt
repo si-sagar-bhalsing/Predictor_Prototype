@@ -33,6 +33,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.si.fanalytics.match_predictor.data.MatchViewModel
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.PredictorScreenBg
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
@@ -50,6 +51,9 @@ fun MatchDayScreen(modifier: Modifier) {
     var data = dummyMatchDays
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState()
+    val matchViewModel = remember {
+        ViewModelProvider.NewInstanceFactory().create(MatchViewModel::class.java)
+    }
     // As rememberPagerState is not directly observable in the way LiveData or StateFlow is
     // We can use Compose state observation mechanisms like
     // snapshotFlow and LaunchedEffect to observe and react to changes in the PagerState.
@@ -63,6 +67,9 @@ fun MatchDayScreen(modifier: Modifier) {
 
     }
 
+    LaunchedEffect(Unit) {
+        matchViewModel.getFixtures()
+    }
 
     //val viewModel : MatchPredictorViewModel = hiltViewModel()
     val viewModel: MatchPredictorViewModel = remember {
@@ -140,8 +147,7 @@ fun MatchDayScreen(modifier: Modifier) {
                 Log.d("predictAwayScore", viewModel.predictAwayScore.value.toString())
             },
             onSaveClick = {
-                GlobalScope.launch(Dispatchers.Main) {
-                   delay(3000)
+
                 Log.d("MatchId", "MainScreen_matchId :" + viewModel.matchId.value.toString())
                 Log.d("MatchId", "MainScreen_PredictHomeScore :" + viewModel.predictHomeScore.value.toString())
                     Log.d("MatchId", "MainScreen_PredictAwayScore :" + viewModel.predictAwayScore.value.toString())
@@ -152,7 +158,7 @@ fun MatchDayScreen(modifier: Modifier) {
                 Log.d("predictHomeScore", dummyMatchDays[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore.toString())
                 //it.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
                 //it.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore
-            }},
+            },
             content = {},
 
             )

@@ -172,8 +172,8 @@ fun BottomSheetContent(
 
         Button(
             onClick = {
-                onSaveClick()
                 onIndexPass(selectedIndex)
+                onSaveClick()
                 onHide()
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFC107)),
