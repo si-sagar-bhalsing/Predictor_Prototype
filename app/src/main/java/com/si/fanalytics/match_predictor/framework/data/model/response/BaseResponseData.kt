@@ -1,7 +1,6 @@
-package com.si.f1.library.framework.data.model.response
+package com.si.fanalytics.match_predictor.framework.data.model.response
 
 import com.google.gson.annotations.SerializedName
-import com.si.fanalytics.match_predictor.framework.data.model.response.Meta
 
 data class BaseResponseData<V>(
     @SerializedName("Data") val data: BaseResponseValue<V>?,
@@ -11,4 +10,9 @@ data class BaseResponseData<V>(
 data class BaseResponseValue<V>(
     @SerializedName("Value")
     val value: V?,
+)
+
+data class BaseResponse<V>(
+    @SerializedName("Data") val data:V?,
+    @SerializedName("Meta") val meta: Meta?
 )

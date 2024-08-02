@@ -50,6 +50,7 @@ import com.si.fanalytics.match_predictor.R
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import kotlinx.coroutines.launch
 
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BottomSheetLayout(
@@ -129,7 +130,7 @@ fun BottomSheetContent(
 
             ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_add),
+                painter = painterResource(id = R.drawable.ic_flag),
                 contentDescription = "Close",
                 tint = White,
                 modifier = Modifier.rotate(45f)

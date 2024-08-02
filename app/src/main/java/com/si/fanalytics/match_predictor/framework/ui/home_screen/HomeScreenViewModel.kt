@@ -3,19 +3,25 @@ package com.si.fanalytics.match_predictor.framework.ui.home_screen
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.si.fanalytics.match_predictor.business.data.utils.UseCaseResult
+import com.si.fanalytics.match_predictor.business.domain.model.Requests.ApplyBoosterRequest
 import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
+import com.si.fanalytics.match_predictor.business.interactor.ApplyBoosterUseCase
 import com.si.fanalytics.match_predictor.business.interactor.GetFixturesUseCase
+import com.si.fanalytics.match_predictor.business.interactor.GetUserPredictionsUseCase
 import com.si.fanalytics.match_predictor.business.interactor.SubmitPredictionUseCase
 import com.si.fanalytics.match_predictor.framework.base.BaseViewModel
 import com.si.fanalytics.match_predictor.framework.ui.predictor_screen.MatchViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val fixturesUseCase: GetFixturesUseCase,
-    private val submitPredictionUseCase: SubmitPredictionUseCase
+    private val submitPredictionUseCase: SubmitPredictionUseCase,
+    private val applyBoosterUseCase: ApplyBoosterUseCase,
+    private val getUserPredictionsUseCase: GetUserPredictionsUseCase
 ) :
     BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
     override fun createInitialState()= HomeScreenContract.State()
@@ -25,8 +31,10 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     init {
-        getFixtures()
+        //getFixtures()
         //submitPrediction()
+        //applyBooster()
+        getUserPredictions()
     }
 
 
@@ -73,6 +81,40 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
+    fun applyBooster(){
+        viewModelScope.launch {
+            val result=applyBoosterUseCase.invoke(
+                ApplyBoosterRequest(
+                    boosterId = 1,
+                    tourGameDayId = 1,
+                    soccerMatchId = "43jaahbvhozemngcub81d9f6c",
+                    tourId = 1,
+                    optType = 1
+                )
+            )
+            when(result){
+                is UseCaseResult.Success->{
+                    Log.d(TAG, "applyBooster: Success")
+                }
+                is UseCaseResult.Failure->{
+                    Log.d(TAG, "applyBooster: Failure")
+                }
+            }
+        }
+    }
+
+    fun getUserPredictions(){
+        viewModelScope.launch {
+            when(val result=getUserPredictionsUseCase.invoke()){
+                is UseCaseResult.Success->{
+                    Log.d(TAG, "getUserPredictions: ${result.data}")
+                }
+                is UseCaseResult.Failure->{
+                    Log.d(TAG, "getUserPredictions: ${result.throwable}")
+                }
+            }
+        }
+    }
     companion object {
         const val TAG="HOME SCREEN"
     }

@@ -1,11 +1,11 @@
 package com.si.fanalytics.match_predictor.business.data
 
 
-import com.si.f1.library.framework.data.model.response.BaseResponseData
+import com.si.fanalytics.match_predictor.framework.data.model.response.BaseResponse
+import com.si.fanalytics.match_predictor.framework.data.model.response.BaseResponseData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -57,6 +57,7 @@ fun <E, D> BaseResponseData<E>.toApiResult(
 ): ApiResult<D> {
     return if (meta?.retVal == 1) {
         val mapData = data?.value?.let { mapDataBlock(it) }
+
         if (mapData != null) {
             ApiResult.Success(mapData)
         } else {
@@ -66,6 +67,25 @@ fun <E, D> BaseResponseData<E>.toApiResult(
         ApiResult.GenericError(meta?.retVal, meta?.message)
     }
 }
+
+fun <E, D> BaseResponse<E>.toApiResult(
+    mapDataBlock: (E) -> D,
+): ApiResult<D> {
+    return if (meta?.retVal == 1) {
+        val mapData = data?.let { mapDataBlock(it) }
+
+        if (mapData != null) {
+            ApiResult.Success(mapData)
+        } else {
+            ApiResult.NullDataError
+        }
+    } else {
+        ApiResult.GenericError(meta?.retVal, meta?.message)
+    }
+}
+
+
+
 private fun convertErrorBody(throwable: HttpException): String? {
     return try {
         throwable.toString()
