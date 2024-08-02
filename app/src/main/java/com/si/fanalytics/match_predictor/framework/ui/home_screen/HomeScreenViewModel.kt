@@ -42,7 +42,7 @@ class HomeScreenViewModel @Inject constructor(
         //applyBooster()
        // getUserPredictions()
         //createLeague()
-        joinLeague()
+        //joinLeague()
     }
 
 
