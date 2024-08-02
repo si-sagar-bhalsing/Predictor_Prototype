@@ -1,4 +1,4 @@
-package com.si.fanalytics.match_predictor.business.domain.model
+package com.si.fanalytics.match_predictor.business.domain.model.response
 
 
 data class Prediction(

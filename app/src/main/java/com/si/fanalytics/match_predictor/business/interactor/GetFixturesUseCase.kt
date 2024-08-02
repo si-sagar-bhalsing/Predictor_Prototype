@@ -1,6 +1,6 @@
 package com.si.fanalytics.match_predictor.business.interactor
 
-import com.si.fanalytics.match_predictor.business.domain.model.Fixture
+import com.si.fanalytics.match_predictor.business.domain.model.response.Fixture
 import com.si.fanalytics.match_predictor.business.data.utils.CustomThrowable
 import com.si.fanalytics.match_predictor.business.data.utils.Resource
 import com.si.fanalytics.match_predictor.business.data.utils.UseCaseResult

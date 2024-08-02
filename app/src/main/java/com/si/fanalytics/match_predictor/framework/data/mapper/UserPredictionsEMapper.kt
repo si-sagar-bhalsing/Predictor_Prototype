@@ -1,11 +1,11 @@
 package com.si.fanalytics.match_predictor.framework.data.mapper
 
-import com.si.fanalytics.match_predictor.business.domain.model.Answers
-import com.si.fanalytics.match_predictor.business.domain.model.Prediction
+import com.si.fanalytics.match_predictor.business.domain.model.response.Answers
+import com.si.fanalytics.match_predictor.business.domain.model.response.Prediction
 import com.si.fanalytics.match_predictor.framework.data.model.UserPredictionsE
 import javax.inject.Inject
 
-class UserPredictionsEMapper @Inject constructor():EntityMapper<UserPredictionsE,Prediction> {
+class UserPredictionsEMapper @Inject constructor():EntityMapper<UserPredictionsE, Prediction> {
     override fun toDomain(entity: UserPredictionsE): Prediction {
       return  entity.run {
             Prediction(

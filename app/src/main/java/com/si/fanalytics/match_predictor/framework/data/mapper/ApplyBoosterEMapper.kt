@@ -1,6 +1,6 @@
 package com.si.fanalytics.match_predictor.framework.data.mapper
 
-import com.si.fanalytics.match_predictor.business.domain.model.Requests.ApplyBoosterRequest
+import com.si.fanalytics.match_predictor.business.domain.model.requests.ApplyBoosterRequest
 import com.si.fanalytics.match_predictor.framework.data.model.ApplyBoosterRequestE
 import javax.inject.Inject
 

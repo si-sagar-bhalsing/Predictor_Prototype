@@ -1,7 +1,6 @@
-package com.si.fanalytics.match_predictor.framework.data.mapper.common
+package com.si.fanalytics.match_predictor.framework.data.mapper
 
-import com.si.fanalytics.match_predictor.business.domain.model.Fixture
-import com.si.fanalytics.match_predictor.framework.data.mapper.EntityMapper
+import com.si.fanalytics.match_predictor.business.domain.model.response.Fixture
 import com.si.fanalytics.match_predictor.framework.data.model.fixture.FixtureE
 import javax.inject.Inject
 

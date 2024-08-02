@@ -1,4 +1,4 @@
-package com.si.fanalytics.match_predictor.business.domain.model.Requests
+package com.si.fanalytics.match_predictor.business.domain.model.requests
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

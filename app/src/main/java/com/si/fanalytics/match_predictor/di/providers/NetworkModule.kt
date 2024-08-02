@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.si.fanalytics.match_predictor.business.data.utils.CurlLoggingInterceptor
 import com.si.fanalytics.match_predictor.business.data.utils.CustomRequestInterceptor
-import com.si.fanalytics.match_predictor.framework.data.remote.TextConsntant.BASE_URL
+import com.si.fanalytics.match_predictor.framework.data.remote.TextConstant.BASE_URL
 import com.si.fanalytics.match_predictor.framework.data.remote.service.PredictorService
 import dagger.Module
 import dagger.Provides

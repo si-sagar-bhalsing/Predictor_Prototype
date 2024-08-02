@@ -3,7 +3,7 @@ package com.si.fanalytics.match_predictor.framework.ui.home_screen
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.si.fanalytics.match_predictor.business.data.utils.UseCaseResult
-import com.si.fanalytics.match_predictor.business.domain.model.Requests.ApplyBoosterRequest
+import com.si.fanalytics.match_predictor.business.domain.model.requests.ApplyBoosterRequest
 import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
 import com.si.fanalytics.match_predictor.business.interactor.ApplyBoosterUseCase
 import com.si.fanalytics.match_predictor.business.interactor.GetFixturesUseCase
@@ -14,7 +14,6 @@ import com.si.fanalytics.match_predictor.framework.ui.predictor_screen.MatchView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
