@@ -15,6 +15,7 @@ daggerHilt = "2.50"
 hiltNavigation = "1.1.0"
 appcompat = "1.7.0"
 material = "1.12.0"
+runtimeLivedata = "1.6.8"
 
 
 [libraries]
@@ -41,6 +42,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

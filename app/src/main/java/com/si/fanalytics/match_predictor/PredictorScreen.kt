@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,6 +52,9 @@ fun MatchDayScreen(modifier: Modifier) {
     val matchViewModel = remember {
         ViewModelProvider.NewInstanceFactory().create(MatchViewModel::class.java)
     }
+    val fixtures = matchViewModel.fixtures.observeAsState()
+    val error = matchViewModel.error.observeAsState()
+
     // As rememberPagerState is not directly observable in the way LiveData or StateFlow is
     // We can use Compose state observation mechanisms like
     // snapshotFlow and LaunchedEffect to observe and react to changes in the PagerState.
@@ -63,17 +67,18 @@ fun MatchDayScreen(modifier: Modifier) {
         }
 
     }
-
     LaunchedEffect(Unit) {
         matchViewModel.getFixtures()
     }
+    val mactchdays = matchViewModel.matchdays.value
+    Log.d("MatchDays",mactchdays.toString())
+
 
     //val viewModel : MatchPredictorViewModel = hiltViewModel()
     val viewModel: MatchPredictorViewModel = remember {
         ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
     }
     val isBottomSheetOpen by viewModel.isBottomSheetVisible
-
 
 
     Column(
@@ -96,7 +101,13 @@ fun MatchDayScreen(modifier: Modifier) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            data.forEachIndexed { index, matchDay ->
+            val tabs = mutableSetOf<String?>()
+
+            fixtures.value?.Data?.Value?.map {
+                tabs.add(it.matchday.toString())
+                Log.d("FIXTURES_DATA", it.matchday.toString())
+            }
+            tabs.forEachIndexed { index, matchDay ->
                 Tab(
                     selected = selectedTabIndex == index,
                     onClick = {
@@ -104,7 +115,7 @@ fun MatchDayScreen(modifier: Modifier) {
                             pagerState.animateScrollToPage(index)
                         }
                     },
-                    text = { Text(matchDay.matchDay) }
+                    text = { Text(matchDay.toString()) }
                 )
             }
         }

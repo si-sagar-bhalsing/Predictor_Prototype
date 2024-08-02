@@ -8,9 +8,9 @@ import com.si.fanalytics.match_predictor.data.model.PredictorModel
 import com.si.fanalytics.match_predictor.data.model.Timestamp
 
 data class FeedTimeE(
-    @SerializedName("CESTTime") val cestTime: String,
-    @SerializedName("ISTTime") val istTime: String,
-    @SerializedName("UTCTime") val utcTime: String
+    @SerializedName("CESTTime") val cestTime: String?,
+    @SerializedName("ISTTime") val istTime: String?,
+    @SerializedName("UTCTime") val utcTime: String?
 )
 
 class FeedTimeMapper {
@@ -25,10 +25,10 @@ class FeedTimeMapper {
 
 
 data class MetaE(
-    @SerializedName("Message") val message: String,
-    @SerializedName("RetVal") val retVal: Int,
-    @SerializedName("Success") val success: Boolean,
-    @SerializedName("Timestamp") val timestamp: TimestampE
+    @SerializedName("Message") val message: String?,
+    @SerializedName("RetVal") val retVal: Int?,
+    @SerializedName("Success") val success: Boolean?,
+    @SerializedName("Timestamp") val timestamp: TimestampE?
 )
 
 class MetaMapper(private val timestampMapper: TimestampMapper) {
@@ -37,16 +37,16 @@ class MetaMapper(private val timestampMapper: TimestampMapper) {
             Message = apiModel.message,
             RetVal = apiModel.retVal,
             Success = apiModel.success,
-            Timestamp = timestampMapper.toDomain(apiModel.timestamp)
+            Timestamp = apiModel.timestamp?.let { timestampMapper.toDomain(it) }
         )
     }
 }
 
 
 data class TimestampE(
-    @SerializedName("CESTTime") val cestTime: String,
-    @SerializedName("ISTTime") val istTime: String,
-    @SerializedName("UTCTime") val utcTime: String
+    @SerializedName("CESTTime") val cestTime: String?,
+    @SerializedName("ISTTime") val istTime: String?,
+    @SerializedName("UTCTime") val utcTime: String?
 )
 
 class TimestampMapper {
@@ -61,29 +61,29 @@ class TimestampMapper {
 
 
 data class DataE(
-    @SerializedName("FeedTime") val feedTime: FeedTimeE,
-    @SerializedName("Value") val value: List<ValueE>
+    @SerializedName("FeedTime") val feedTime: FeedTimeE?,
+    @SerializedName("Value") val value: List<ValueE>?
 )
 
 class DataMapper(private val feedTimeMapper: FeedTimeMapper, private val valueMapper: ValueMapper) {
     fun toDomain(apiModel: DataE): Data {
         return Data(
-            FeedTime = feedTimeMapper.toDomain(apiModel.feedTime),
-            Value = apiModel.value.map { valueMapper.toDomain(it) }
+            FeedTime = apiModel.feedTime?.let { feedTimeMapper.toDomain(it) },
+            Value = apiModel.value?.map { valueMapper.toDomain(it) }
         )
     }
 }
 
 data class PredictorModelE(
-    @SerializedName("Data") val data: DataE,
-    @SerializedName("Meta") val meta: MetaE
+    @SerializedName("Data") val data: DataE?,
+    @SerializedName("Meta") val meta: MetaE?
 )
 
 class PredictorModelMapper(private val dataMapper: DataMapper, private val metaMapper: MetaMapper) {
     fun toDomain(apiModel: PredictorModelE): PredictorModel {
         return PredictorModel(
-            Data = dataMapper.toDomain(apiModel.data),
-            Meta = metaMapper.toDomain(apiModel.meta)
+            Data = apiModel.data?.let { dataMapper.toDomain(it) },
+            Meta = apiModel.meta?.let { metaMapper.toDomain(it) }
         )
     }
 }
