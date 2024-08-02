@@ -16,6 +16,7 @@ import com.si.fanalytics.match_predictor.framework.data.mapper.JoinLeagueEMapper
 import com.si.fanalytics.match_predictor.framework.data.mapper.SubmitPredictionRequestEMapper
 import com.si.fanalytics.match_predictor.framework.data.mapper.UserPredictionsEMapper
 import com.si.fanalytics.match_predictor.framework.data.mapper.FixtureMapper
+import com.si.fanalytics.match_predictor.framework.data.model.leagues.response.LeagueResponse
 import com.si.fanalytics.match_predictor.framework.data.remote.TextConstant.APPLY_BOOSTER
 import com.si.fanalytics.match_predictor.framework.data.remote.TextConstant.CREATE_LEAGUE_URL
 import com.si.fanalytics.match_predictor.framework.data.remote.TextConstant.FIXTURE_URL
@@ -73,7 +74,7 @@ class PredictorNetworkDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createLeague(request: CreateLeagueRequest): ApiResult<Int> {
+    override suspend fun createLeague(request: CreateLeagueRequest): ApiResult<LeagueResponse> {
         return safeApiCall {
             predictorService.createLeague(
                 url =CREATE_LEAGUE_URL ,
@@ -82,7 +83,7 @@ class PredictorNetworkDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun joinLeague(request: JoinLeagueRequest): ApiResult<Int> {
+    override suspend fun joinLeague(request: JoinLeagueRequest): ApiResult<LeagueResponse> {
         return safeApiCall {
             predictorService.joinLeague(
                 url = JOIN_LEAGUE_URL,

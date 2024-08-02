@@ -14,7 +14,8 @@ class JoinLeagueEMapper @Inject constructor() :EntityMapper<JoinLeagueRequestE,J
                 leagueName = this.leagueName,
                 leagueCode = this.leagueCode,
                 gamedayId = this.gamedayId,
-                language = LANGUAGE
+                language = LANGUAGE,
+                tourId = this.tourId
 
             )
         }

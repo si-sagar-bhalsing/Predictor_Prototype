@@ -7,6 +7,7 @@ import com.si.fanalytics.match_predictor.business.domain.model.requests.ApplyBoo
 import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
 import com.si.fanalytics.match_predictor.business.domain.model.requests.CreateLeagueRequest
 import com.si.fanalytics.match_predictor.business.domain.model.requests.JoinLeagueRequest
+import com.si.fanalytics.match_predictor.framework.data.model.leagues.response.LeagueResponse
 
 interface PredictorRepository {
     suspend fun getFixtures(): Resource<List<Fixture>>
@@ -14,6 +15,6 @@ interface PredictorRepository {
     suspend fun applyBooster(request: ApplyBoosterRequest):Resource<Int>
     suspend fun getUserPredictions():Resource<Prediction>
 
-    suspend fun createLeague(request:CreateLeagueRequest):Resource<Int>
-    suspend fun joinLeague(request: JoinLeagueRequest):Resource<Int>
+    suspend fun createLeague(request:CreateLeagueRequest):Resource<LeagueResponse>
+    suspend fun joinLeague(request: JoinLeagueRequest):Resource<LeagueResponse>
 }

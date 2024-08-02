@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CreateLeagueRequest (
+    val tourId: Int,
     val optType:Int,
     val gamedayId:Int,
     val leagueName:String,

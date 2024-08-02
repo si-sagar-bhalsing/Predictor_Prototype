@@ -10,6 +10,7 @@ import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionR
 import com.si.fanalytics.match_predictor.business.domain.model.requests.CreateLeagueRequest
 import com.si.fanalytics.match_predictor.business.domain.model.requests.JoinLeagueRequest
 import com.si.fanalytics.match_predictor.business.repository.PredictorRepository
+import com.si.fanalytics.match_predictor.framework.data.model.leagues.response.LeagueResponse
 import javax.inject.Inject
 
 class PredictorRepositoryImpl @Inject constructor(
@@ -61,11 +62,11 @@ class PredictorRepositoryImpl @Inject constructor(
         return resource
     }
 
-    override suspend fun createLeague(request: CreateLeagueRequest): Resource<Int> {
-        val result=predictorNetworkDataSource.createLeague(request)
+    override suspend fun createLeague(request: CreateLeagueRequest): Resource<LeagueResponse> {
+        val result = predictorNetworkDataSource.createLeague(request = request)
 
-        val resource= object : ApiResultHandler<Int,Int>(result) {
-            override suspend fun handleSuccess(resultObj: Int): Resource<Int> {
+        val resource = object : ApiResultHandler<LeagueResponse, LeagueResponse>(result) {
+            override suspend fun handleSuccess(resultObj: LeagueResponse): Resource<LeagueResponse> {
                 return Resource.Success(resultObj)
             }
         }.getResult()
@@ -73,10 +74,10 @@ class PredictorRepositoryImpl @Inject constructor(
         return resource
     }
 
-    override suspend fun joinLeague(request: JoinLeagueRequest): Resource<Int> {
-        val result=predictorNetworkDataSource.joinLeague(request)
-        val resource=object:ApiResultHandler<Int,Int>(result){
-            override suspend fun handleSuccess(resultObj: Int): Resource<Int> {
+    override suspend fun joinLeague(request: JoinLeagueRequest): Resource<LeagueResponse> {
+        val result = predictorNetworkDataSource.joinLeague(request = request)
+        val resource = object : ApiResultHandler<LeagueResponse, LeagueResponse>(result) {
+            override suspend fun handleSuccess(resultObj: LeagueResponse): Resource<LeagueResponse> {
                 return Resource.Success(resultObj)
             }
         }.getResult()

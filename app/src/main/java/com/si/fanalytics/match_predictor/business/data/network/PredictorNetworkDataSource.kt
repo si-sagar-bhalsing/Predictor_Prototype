@@ -7,6 +7,7 @@ import com.si.fanalytics.match_predictor.business.domain.model.response.Predicti
 import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
 import com.si.fanalytics.match_predictor.business.domain.model.requests.CreateLeagueRequest
 import com.si.fanalytics.match_predictor.business.domain.model.requests.JoinLeagueRequest
+import com.si.fanalytics.match_predictor.framework.data.model.leagues.response.LeagueResponse
 
 interface PredictorNetworkDataSource {
     suspend fun getFixtures(): ApiResult<List<Fixture>>
@@ -16,6 +17,6 @@ interface PredictorNetworkDataSource {
 
     suspend fun getUserPredictions():ApiResult<Prediction>
 
-    suspend fun createLeague(request: CreateLeagueRequest):ApiResult<Int>
-    suspend fun joinLeague(request: JoinLeagueRequest):ApiResult<Int>
+    suspend fun createLeague(request: CreateLeagueRequest):ApiResult<LeagueResponse>
+    suspend fun joinLeague(request: JoinLeagueRequest):ApiResult<LeagueResponse>
 }

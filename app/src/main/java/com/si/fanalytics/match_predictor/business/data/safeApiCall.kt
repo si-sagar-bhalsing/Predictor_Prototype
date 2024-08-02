@@ -57,7 +57,6 @@ fun <E, D> BaseResponseData<E>.toApiResult(
 ): ApiResult<D> {
     return if (meta?.retVal == 1) {
         val mapData = data?.value?.let { mapDataBlock(it) }
-
         if (mapData != null) {
             ApiResult.Success(mapData)
         } else {

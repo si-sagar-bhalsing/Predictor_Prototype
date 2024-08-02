@@ -15,7 +15,8 @@ class CreateLeagueEMapper @Inject constructor():EntityMapper<CreateLeagueRequest
                 leagueName=this.leagueName,
                 leagueCode=this.leagueCode,
                 leagueId=this.leagueId,
-                language = LANGUAGE
+                language = LANGUAGE,
+                tourId = this.tourId
             )
         }
     }

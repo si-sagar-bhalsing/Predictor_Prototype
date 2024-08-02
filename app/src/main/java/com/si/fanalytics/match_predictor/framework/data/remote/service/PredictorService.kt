@@ -7,6 +7,7 @@ import com.si.fanalytics.match_predictor.framework.data.model.ApplyBoosterReques
 import com.si.fanalytics.match_predictor.framework.data.model.leagues.request.CreateLeagueRequestE
 import com.si.fanalytics.match_predictor.framework.data.model.leagues.request.JoinLeagueRequestE
 import com.si.fanalytics.match_predictor.framework.data.model.UserPredictionsE
+import com.si.fanalytics.match_predictor.framework.data.model.leagues.response.LeagueResponse
 import com.si.fanalytics.match_predictor.framework.data.model.response.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,14 +38,14 @@ interface PredictorService {
     ): BaseResponse<UserPredictionsE>
 
     @POST
-    fun createLeague(
+    suspend fun createLeague(
         @Url url: String,
         @Body createLeagueRequest: CreateLeagueRequestE
-    ):BaseResponseData<Int>
+    ):BaseResponseData<LeagueResponse>
 
     @POST
-    fun joinLeague(
+    suspend fun joinLeague(
         @Url url: String,
         @Body joinLeagueRequest: JoinLeagueRequestE
-    ):BaseResponseData<Int>
+    ):BaseResponseData<LeagueResponse>
 }

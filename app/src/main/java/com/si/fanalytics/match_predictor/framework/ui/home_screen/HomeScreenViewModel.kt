@@ -5,22 +5,29 @@ import androidx.lifecycle.viewModelScope
 import com.si.fanalytics.match_predictor.business.data.utils.UseCaseResult
 import com.si.fanalytics.match_predictor.business.domain.model.requests.ApplyBoosterRequest
 import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
+import com.si.fanalytics.match_predictor.business.domain.model.requests.CreateLeagueRequest
+import com.si.fanalytics.match_predictor.business.domain.model.requests.JoinLeagueRequest
 import com.si.fanalytics.match_predictor.business.interactor.ApplyBoosterUseCase
+import com.si.fanalytics.match_predictor.business.interactor.CreateLeagueUseCase
 import com.si.fanalytics.match_predictor.business.interactor.GetFixturesUseCase
 import com.si.fanalytics.match_predictor.business.interactor.GetUserPredictionsUseCase
+import com.si.fanalytics.match_predictor.business.interactor.JoinLeagueUseCase
 import com.si.fanalytics.match_predictor.business.interactor.SubmitPredictionUseCase
 import com.si.fanalytics.match_predictor.framework.base.BaseViewModel
 import com.si.fanalytics.match_predictor.framework.ui.predictor_screen.MatchViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val fixturesUseCase: GetFixturesUseCase,
     private val submitPredictionUseCase: SubmitPredictionUseCase,
     private val applyBoosterUseCase: ApplyBoosterUseCase,
-    private val getUserPredictionsUseCase: GetUserPredictionsUseCase
+    private val getUserPredictionsUseCase: GetUserPredictionsUseCase,
+    private val createLeagueUseCase: CreateLeagueUseCase,
+    private val joinLeagueUseCase: JoinLeagueUseCase
 ) :
     BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
     override fun createInitialState()= HomeScreenContract.State()
@@ -33,7 +40,9 @@ class HomeScreenViewModel @Inject constructor(
         //getFixtures()
         //submitPrediction()
         //applyBooster()
-        getUserPredictions()
+       // getUserPredictions()
+        //createLeague()
+        joinLeague()
     }
 
 
@@ -110,6 +119,51 @@ class HomeScreenViewModel @Inject constructor(
                 }
                 is UseCaseResult.Failure->{
                     Log.d(TAG, "getUserPredictions: ${result.throwable}")
+                }
+            }
+        }
+    }
+
+    fun createLeague(){
+        viewModelScope.launch {
+            val result=createLeagueUseCase.invoke(
+                request = CreateLeagueRequest(
+                    leagueName = "Legaue of leagues",
+                    leagueCode = 11,
+                    gamedayId = 1,
+                    optType = 1,
+                    leagueId = 0,
+                    tourId = 1
+                )
+            )
+            when(result){
+                is UseCaseResult.Success->{
+                    Log.d(TAG, "createLeague: Success ${result.data}")
+                }
+                is UseCaseResult.Failure->{
+                    Log.d(TAG, "createLeague: failure ${result.throwable}")
+                }
+            }
+        }
+    }
+    fun joinLeague(){
+        viewModelScope.launch {
+            val result=joinLeagueUseCase.invoke(
+                request = JoinLeagueRequest(
+                    optType = 1,
+                    gamedayId = 1,
+                    leagueId = 0,
+                    leagueCode = 242,
+                    leagueName = "Legaue of leagues",
+                    tourId = 1
+                )
+            )
+            when(result){
+                is UseCaseResult.Success->{
+                    Log.d(TAG, "joinLeague: Success ${result.data}")
+                }
+                is UseCaseResult.Failure->{
+                    Log.d(TAG, "joinLeague: failure ${result.throwable}")
                 }
             }
         }
