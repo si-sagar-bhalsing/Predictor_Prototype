@@ -1,0 +1,81 @@
+package com.si.fanalytics.match_predictor.framework.data.mapper.common
+
+import com.si.fanalytics.match_predictor.business.domain.model.Fixture
+import com.si.fanalytics.match_predictor.framework.data.mapper.EntityMapper
+import com.si.fanalytics.match_predictor.framework.data.model.fixture.FixtureE
+import javax.inject.Inject
+
+class FixtureMapper @Inject constructor() : EntityMapper<List<FixtureE>, List<Fixture>> {
+    override fun toDomain(entity: List<FixtureE>): List<Fixture> {
+        return entity.map {
+            Fixture(
+                matchId = it.matchId,
+                tourId = it.tourId,
+                teamGamedayId = it.teamGamedayId,
+                tourGamedayId = it.tourGamedayId,
+                phaseId = it.phaseId,
+                gdIsCurrent = it.gdIsCurrent,
+                gdIsLocked = it.gdIsLocked,
+                mdIsLocked = it.mdIsLocked,
+                mdIsCurrent = it.mdIsCurrent,
+                mhIsLocked = it.mhIsLocked,
+                mhIsCurrent = it.mhIsCurrent,
+                gdTotalPlayers = it.gdTotalPlayers,
+                mdTotalPlayers = it.mdTotalPlayers,
+                maxTeamPlayers = it.maxTeamPlayers,
+                maxTeamBalance = it.maxTeamBalance,
+                substitutionsAllowed = it.substitutionsAllowed,
+                maxSubstitutionsCF = it.maxSubstitutionsCF,
+                matchday = it.matchday,
+                isFeedLive = it.isFeedLive,
+                gamedayId = it.gamedayId,
+                homeTeamId = it.homeTeamId,
+                homeTeamName = it.homeTeamName,
+                homeTeamShort = it.homeTeamShort,
+                awayTeamId = it.awayTeamId,
+                awayTeamName = it.awayTeamName,
+                awayTeamShort = it.awayTeamShort,
+                matchName = it.matchName,
+                isCurrent = it.isCurrent,
+                isLock = it.isLock,
+                isLive = it.isLive,
+                eotFlag = it.eotFlag,
+                correctPredId = it.correctPredId,
+                gameday = it.gameday,
+                matchTime = it.matchTime,
+                matchDate = it.matchDate,
+                deadline = it.deadline,
+                teamA = it.teamA,
+                teamAName = it.teamAName,
+                teamAShortName = it.teamAShortName,
+                homeTeamCountryCode = it.homeTeamCountryCode,
+                teamB = it.teamB,
+                teamBName = it.teamBName,
+                teamBShortName = it.teamBShortName,
+                awayTeamCountryCode = it.awayTeamCountryCode,
+                gameNo = it.gameNo,
+                matchdayName = it.matchdayName,
+                venueName = it.venueName,
+                roundId = it.roundId,
+                round = it.round,
+                gameDate = it.gameDate,
+                countryCode = it.countryCode,
+                homeTeamScore = it.homeTeamScore,
+                awayTeamScore = it.awayTeamScore,
+                pointsStatus = it.pointsStatus,
+                matchStatus = it.matchStatus,
+                predMatchStatus = it.predMatchStatus,
+                userPredCount = it.userPredCount,
+                MatchQuestions = it.MatchQuestions,
+                TeamAOutcome = it.TeamAOutcome,
+                TeamBOutcome = it.TeamBOutcome,
+                gameIsCurrent = it.gameIsCurrent,
+                gameIsLocked = it.gameIsLocked,
+                dateTime = it.dateTime,
+                notificationUpd = it.notificationUpd,
+                stageName = it.stageName,
+                stats = it.stats,
+            )
+        }
+    }
+}

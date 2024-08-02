@@ -1,0 +1,31 @@
+package com.si.fanalytics.match_predictor.business.domain.model
+
+data class MatchQuestion(
+    val coinMult: Int,
+    val coinMultiplier: Any?,
+    val inningNo: Int,
+    val isLiveQuestion: Int,
+    val lastQstn: Int,
+    val lstQstnList: Any?,
+    val matchId: String,
+    val optionJson: Any?,
+    val optionLists: List<OptionLists>,
+    val options: Any?,
+    val publishedDate: String,
+    val questionCode: String,
+    val questionDesc: String,
+    val questionId: Int,
+    val questionNo: Int,
+    val questionNumber: Int,
+    val questionOccurrence: String,
+    val questionPoints: String,
+    val questionTime: String,
+    val questionType: String,
+    val status: Int,
+    val teamAId: Any?,
+    val teamAName: Any?,
+    val teamAScore: Any?,
+    val teamBId: Any?,
+    val teamBName: Any?,
+    val teamBScore: Any?
+)
