@@ -74,7 +74,6 @@ fun MatchDayScreen(modifier: Modifier) {
     Log.d("MatchDays",mactchdays.toString())
 
 
-    //val viewModel : MatchPredictorViewModel = hiltViewModel()
     val viewModel: MatchPredictorViewModel = remember {
         ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
     }
@@ -90,7 +89,6 @@ fun MatchDayScreen(modifier: Modifier) {
         ScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
             backgroundColor = Color(0xFF0B1E60),
-            //containerColor = Color(0xFF0B1E60),
             contentColor = Color.White,
             edgePadding = 16.dp,
             indicator = { tabPositions ->
@@ -115,7 +113,7 @@ fun MatchDayScreen(modifier: Modifier) {
                             pagerState.animateScrollToPage(index)
                         }
                     },
-                    text = { Text(matchDay.toString()) }
+                    text = { Text("Match Day "+matchDay.toString()) }
                 )
             }
         }
@@ -125,12 +123,14 @@ fun MatchDayScreen(modifier: Modifier) {
             color = TextColor,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp)
         )
+
         HorizontalPager(
             state = pagerState,
             count = data.size,
         ) { page ->
+            val matchesForMatchday = matchViewModel.getMatchesForMatchday((page + 1).toString())
             LazyColumn(modifier = Modifier.padding(16.dp)) {
-                items(data[page].matches) { match ->
+                items(matchesForMatchday) { match ->
                     MatchInfoCard(match) { matchId ->
                         viewModel.setMatchId(matchId)
                         viewModel.showBottomSheet()
@@ -151,21 +151,8 @@ fun MatchDayScreen(modifier: Modifier) {
                 Log.d("index : ", it.toString())
                 viewModel.setPredictHomeScore(it.first)
                 viewModel.setPredictAwayScore(it.second)
-                Log.d("predictHomeScore", viewModel.predictHomeScore.value.toString())
-                Log.d("predictAwayScore", viewModel.predictAwayScore.value.toString())
             },
             onSaveClick = {
-
-                Log.d("MatchId", "MainScreen_matchId :" + viewModel.matchId.value.toString())
-                Log.d("MatchId", "MainScreen_PredictHomeScore :" + viewModel.predictHomeScore.value.toString())
-                Log.d("MatchId", "MainScreen_PredictAwayScore :" + viewModel.predictAwayScore.value.toString())
-
-                data[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore = 8
-                //viewModel.matchPrediction.value.predictHomeScore
-                //Log.d("MatchId", "MainScreen_value :" + value.toString())
-                Log.d("predictHomeScore", dummyMatchDays[viewModel.currentPage.value].matches.find { viewModel.matchId.value == it.matchId }?.predictedHomeScore.toString())
-                //it.predictedHomeScore = viewModel.matchPrediction.value.predictHomeScore
-                //it.predictedAwayScore = viewModel.matchPrediction.value.predictAwayScore
             },
             content = {},
 

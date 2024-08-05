@@ -28,11 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.si.fanalytics.match_predictor.data.model.Value
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
 
 @Composable
-fun MatchInfoCard(match: Match, onClick: (Int) -> Unit) {
+fun MatchInfoCard(match: Value, onClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -55,18 +56,24 @@ fun MatchInfoCard(match: Match, onClick: (Int) -> Unit) {
                 //horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TeamInfo(team = match.homeTeam, flag = match.homeTeamFlag)
+                match.teamAShortName?.let { TeamInfo(team = it, flag = com.si.fanalytics.match_predictor.R.drawable.ic_flag) }
                 Spacer(modifier = Modifier.width(10.dp))
-                ScoreBox(
-                    homeScore = match.homeScore,
-                    awayScore = match.awayScore,
-                    predictHomeScore = match.predictedHomeScore,
-                    predictAwayScore = match.predictedAwayScore,
-                    isLive = match.isLive,
-                    onClick = { onClick(match.matchId) }
-                )
+                match.awayTeamScore?.let {
+                    match.homeTeamScore?.let { it1 ->
+                        match.isLive?.let { it2 ->
+                            ScoreBox(
+                                homeScore = it1,
+                                awayScore = it,
+                                predictHomeScore = null,
+                                predictAwayScore = null,
+                                isLive = it2,
+                                onClick = { match.matchId?.let { it3 -> onClick(it3.toInt()) } }
+                            )
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.width(10.dp))
-                TeamInfo(team = match.awayTeam, flag = match.awayTeamFlag)
+                match.teamBShortName?.let { TeamInfo(team = it, flag = R.drawable.ic_flag) }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -74,18 +81,18 @@ fun MatchInfoCard(match: Match, onClick: (Int) -> Unit) {
                 Text("Popular Predictions", color = TextColor)
                 Spacer(modifier = Modifier.height(5.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    match.popularPredictions.forEach { prediction ->
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = prediction.score, color = TextColor)
-                            Text(text = "${prediction.percentage}%", color = TextColor)
-                        }
-                        Spacer(modifier = Modifier.width(25.dp))
-                    }
-                }
+//                Row(
+//                    horizontalArrangement = Arrangement.Center,
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    match.popularPredictions.forEach { prediction ->
+//                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                            Text(text = prediction.score, color = TextColor)
+//                            Text(text = "${prediction.percentage}%", color = TextColor)
+//                        }
+//                        Spacer(modifier = Modifier.width(25.dp))
+//                    }
+//                }
             }
         }
     }
@@ -107,7 +114,7 @@ fun TeamInfo(team: String, flag: Int) {
 }
 
 @Composable
-fun ScoreBox(homeScore: Int, awayScore: Int, predictHomeScore: Int?, predictAwayScore: Int?, isLive: Boolean, onClick: () -> Unit) {
+fun ScoreBox(homeScore: Int, awayScore: Int, predictHomeScore: Int?, predictAwayScore: Int?, isLive: Int, onClick: () -> Unit) {
 
     val boxNull = predictHomeScore == null || predictAwayScore == null
 
@@ -127,16 +134,16 @@ fun ScoreBox(homeScore: Int, awayScore: Int, predictHomeScore: Int?, predictAway
 }
 
 @Composable
-fun PredictScoreBox(isLive: Boolean, predictScore: String?, boxNull: Boolean, onClick: () -> Unit) {
-    val boxColor = if (isLive) Highlight else TextColor
-    val boxIcon = if (isLive) R.drawable.ic_add else R.drawable.ic_minuss
+fun PredictScoreBox(isLive: Int, predictScore: String?, boxNull: Boolean, onClick: () -> Unit) {
+    val boxColor = if (isLive == 1) Highlight else TextColor
+    val boxIcon = if (isLive == 1) R.drawable.ic_add else R.drawable.ic_minuss
     Box(
         modifier = Modifier
             .size(50.dp)
             .clip(RoundedCornerShape(5.dp))
             .border(1.dp, boxColor, RoundedCornerShape(5.dp))
             .clickable {
-                if (isLive) onClick()
+                if (isLive == 1) onClick()
             }
     ) {
         if (boxNull) {
@@ -157,29 +164,3 @@ fun PredictScoreBox(isLive: Boolean, predictScore: String?, boxNull: Boolean, on
         }
     }
 }
-//
-//@Preview
-//@Composable
-//fun MatchInfoCardPreview() {
-//    MatchInfoCard(match = match)
-//}
-
-val match = Match(
-    homeTeam = "Germany",
-    homeTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
-    homeScore = 5,
-    predictedAwayScore = null,
-    predictedHomeScore = null,
-    awayTeam = "Scotland",
-    awayTeamFlag = R.drawable.ic_flag,  // replace with actual resource ID
-    awayScore = 1,
-    popularPredictions = listOf(
-        Prediction(score = "2 - 0", percentage = 35),
-        Prediction(score = "3 - 1", percentage = 17),
-        Prediction(score = "3 - 0", percentage = 16),
-        Prediction(score = "2 - 1", percentage = 11),
-
-        ),
-    isLive = true,
-    matchId = 111
-)

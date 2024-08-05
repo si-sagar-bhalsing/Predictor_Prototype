@@ -1,5 +1,6 @@
 package com.si.fanalytics.match_predictor.data.repository
 
+import android.util.Log
 import com.si.fanalytics.match_predictor.data.ApiResult
 import com.si.fanalytics.match_predictor.data.MatchRepository
 import com.si.fanalytics.match_predictor.data.RetrofitInstance
@@ -12,6 +13,7 @@ class MatchRepositoryImp(private val mapper: PredictorModelMapper) : MatchReposi
         return safeApiCall {
             val response = RetrofitInstance.api.getFixtures()
             if (response.isSuccessful) {
+                Log.d("API Response", response.body().toString())
                 ApiResult.Success(mapper.toDomain(response.body()!!))
             } else {
                 ApiResult.GenericError(response.code(), response.message())

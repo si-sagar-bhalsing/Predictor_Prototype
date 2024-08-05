@@ -59,6 +59,13 @@ class MatchViewModel : ViewModel() {
     }
 
     private fun getUniqueMatchdays(fixtures: List<Value>?): List<String> {
+        fixtures?.forEach { value ->
+            value.matchday?.let { Log.d("MatchDayValue", it) }
+        }
         return fixtures?.mapNotNull { it.matchday }?.distinct() ?: emptyList()
+    }
+
+    fun getMatchesForMatchday(matchday: String): List<Value> {
+        return _fixtures.value?.Data?.Value?.filter { it.matchday == matchday } ?: emptyList()
     }
 }
