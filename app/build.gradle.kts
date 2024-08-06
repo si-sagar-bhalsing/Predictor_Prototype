@@ -60,19 +60,6 @@ dependencies {
     androidTestImplementation(libs.test.android.junit.ext)
     androidTestImplementation(libs.test.android.espresso.core)
 
-    // Fragment
-    implementation(libs.fragment)
-
-    // Lifecycle
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
-    implementation(libs.viewmodel)
-
-//    implementation(libs.accompanist.pager)
-//    implementation(libs.accompanist.pager.indicators)
-
-    implementation(libs.lifecycle.runtime.ktx)
-
     // Compose dependencies
     implementation(platform(libs.compose))
     implementation(libs.compose.material)
@@ -86,16 +73,6 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.navigation)
     kapt(libs.hilt.compiler)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-    implementation(libs.network.logger)
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-
-    //image loading lib
-    implementation(libs.coil)
-    implementation(libs.compose.coil)
 
     implementation(project(":core"))
     implementation(project(":match_predictor"))
