@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.si.fanalytics.match_predictor.ui.theme.Match_PredictorTheme
+import com.gaming.core.presentation.MatchDayScreen
+import com.gaming.core.ui.theme.Match_PredictorTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,7 +24,11 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .systemBarsPadding()
                 ) { innerPadding ->
-                    MatchDayScreen(modifier = Modifier.padding(innerPadding))
+                    MatchDayScreen(
+                        modifier = Modifier.padding(
+                            innerPadding
+                        )
+                    )
                 }
             }
         }

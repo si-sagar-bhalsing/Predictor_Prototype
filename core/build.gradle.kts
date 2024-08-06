@@ -1,31 +1,30 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
     id("kotlin-kapt")
+//    alias(libs.plugins.ksp)
+//    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
-    namespace = "com.si.fanalytics.match_predictor"
+    namespace = "com.gaming.core"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.si.fanalytics.match_predictor"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -60,19 +59,6 @@ dependencies {
     androidTestImplementation(libs.test.android.junit.ext)
     androidTestImplementation(libs.test.android.espresso.core)
 
-    // Fragment
-    implementation(libs.fragment)
-
-    // Lifecycle
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
-    implementation(libs.viewmodel)
-
-//    implementation(libs.accompanist.pager)
-//    implementation(libs.accompanist.pager.indicators)
-
-    implementation(libs.lifecycle.runtime.ktx)
-
     // Compose dependencies
     implementation(platform(libs.compose))
     implementation(libs.compose.material)
@@ -81,6 +67,7 @@ dependencies {
     implementation(libs.compose.preview)
     implementation(libs.compose.ui)
     debugImplementation(libs.compose.ui)
+
 
     //hilt
     implementation(libs.hilt)
@@ -96,11 +83,8 @@ dependencies {
     //image loading lib
     implementation(libs.coil)
     implementation(libs.compose.coil)
-
-    implementation(project(":core"))
-    implementation(project(":match_predictor"))
-
 }
+
 kapt {
     correctErrorTypes = true
 }
