@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.si.fanalytics.match_predictor.R
+import com.si.fanalytics.match_predictor.business.domain.model.response.Fixture
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,7 @@ fun BottomSheetLayout(
     isBottomSheetOpen: Boolean,
     onHideBottomSheet: () -> Unit,
     onShowBottomSheet: () -> Unit,
-    match: Match,
+    match: Fixture,
     content: @Composable () -> Unit,
     onSaveClick: () -> Unit,
     onIndexPass: (Pair<Int, Int>) -> Unit
@@ -106,7 +107,7 @@ fun BottomSheetLayout(
 fun BottomSheetContent(
     modalSheetState: ModalBottomSheetState,
     onHide: () -> Unit,
-    match: Match,
+    match: Fixture,
     onSaveClick: () -> Unit,
     onIndexPass :(Pair<Int,Int>) -> Unit,
 
@@ -142,7 +143,7 @@ fun BottomSheetContent(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TeamInfo(team = match.homeTeam, flag = match.homeTeamFlag)
+            match.teamAShortName?.let { TeamInfo(team = it, flag = com.si.fanalytics.match_predictor.R.drawable.ic_flag) }
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 PredictScoreBox(
@@ -167,7 +168,7 @@ fun BottomSheetContent(
                 Spacer(modifier = Modifier.height(25.dp))
             }
             Spacer(modifier = Modifier.width(10.dp))
-            TeamInfo(team = match.awayTeam, flag = match.awayTeamFlag)
+            match.teamBShortName?.let { TeamInfo(team = it, flag = com.si.fanalytics.match_predictor.R.drawable.ic_flag) }
         }
 
         Button(

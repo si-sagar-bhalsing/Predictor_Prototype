@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .systemBarsPadding()
                 ) { innerPadding ->
-                    HomeScreen(modifier = Modifier.padding(innerPadding))
+                    MatchDayScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

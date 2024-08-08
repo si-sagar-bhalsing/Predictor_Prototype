@@ -18,7 +18,9 @@ import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -33,51 +35,33 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
+import com.si.fanalytics.match_predictor.framework.ui.home_screen.HomeScreenContract
+import com.si.fanalytics.match_predictor.framework.ui.home_screen.HomeScreenViewModel
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.PredictorScreenBg
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
-//@Preview
 @Composable
-fun MatchDayScreen(modifier: Modifier,matchViewModel  : MatchViewModel = hiltViewModel()) {
-    var data = dummyMatchDays
+fun MatchDayScreen(
+    modifier: Modifier,
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel(),
+    matchPredictorViewModel: MatchPredictorViewModel = hiltViewModel()
+) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState()
-    val matchViewModel = remember {
-        ViewModelProvider.NewInstanceFactory().create(MatchViewModel::class.java)
-    }
-    val fixtures = matchViewModel.fixtures.observeAsState()
-    val error = matchViewModel.error.observeAsState()
 
-
-    // As rememberPagerState is not directly observable in the way LiveData or StateFlow is
-    // We can use Compose state observation mechanisms like
-    // snapshotFlow and LaunchedEffect to observe and react to changes in the PagerState.
-
-    // This is a side effect that runs a coroutine whenever pagerState changes
     LaunchedEffect(pagerState) {
-        // This creates a flow that emits the current page whenever it changes.
         snapshotFlow { pagerState.currentPage }.collect { page ->
             selectedTabIndex = page
         }
-
     }
-    LaunchedEffect(Unit) {
-        matchViewModel.getFixtures()
-    }
-    val mactchdays = matchViewModel.matchdays.value
-    Log.d("MatchDays",mactchdays.toString())
 
-
-    val viewModel: MatchPredictorViewModel = remember {
-        ViewModelProvider.NewInstanceFactory().create(MatchPredictorViewModel::class.java)
-    }
-    val isBottomSheetOpen by viewModel.isBottomSheetVisible
-
+    val isBottomSheetOpen by matchPredictorViewModel.isBottomSheetVisible
+    val state by homeScreenViewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -98,13 +82,7 @@ fun MatchDayScreen(modifier: Modifier,matchViewModel  : MatchViewModel = hiltVie
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            val tabs = mutableSetOf<String?>()
-
-            fixtures.value?.Data?.Value?.map {
-                tabs.add(it.matchday.toString())
-                Log.d("FIXTURES_DATA", it.matchday.toString())
-            }
-            tabs.forEachIndexed { index, matchDay ->
+            state.matchdays.forEachIndexed { index, matchDay ->
                 Tab(
                     selected = selectedTabIndex == index,
                     onClick = {
@@ -112,49 +90,54 @@ fun MatchDayScreen(modifier: Modifier,matchViewModel  : MatchViewModel = hiltVie
                             pagerState.animateScrollToPage(index)
                         }
                     },
-                    text = { Text("Match Day "+matchDay.toString()) }
+                    text = { Text("Match Day " + matchDay.toString()) }
                 )
             }
         }
 
-        Text(
-            text = data[selectedTabIndex].dateRange,
-            color = TextColor,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
-        )
-
         HorizontalPager(
             state = pagerState,
-            count = data.size,
+            count = state.fixtures.size,
         ) { page ->
-            val matchesForMatchday = matchViewModel.getMatchesForMatchday((page + 1).toString())
+            val matchesForMatchday = homeScreenViewModel.getMatchesForMatchday((page + 1).toString())
             LazyColumn(modifier = Modifier.padding(16.dp)) {
                 items(matchesForMatchday) { match ->
                     MatchInfoCard(match) { matchId ->
-                        viewModel.setMatchId(matchId)
-                        viewModel.showBottomSheet()
-                        viewModel.setPage(page)
+                        matchPredictorViewModel.setMatchId(matchId)
+                        matchPredictorViewModel.showBottomSheet()
+                        matchPredictorViewModel.setPage(page)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
     }
-    viewModel.getMatchById(viewModel.matchId.value)?.let { it ->
+
+    homeScreenViewModel.getMatchById(matchPredictorViewModel.matchId.value)?.let { it ->
         BottomSheetLayout(
             isBottomSheetOpen = isBottomSheetOpen,
-            onHideBottomSheet = { viewModel.hideBottomSheet() },
-            onShowBottomSheet = { viewModel.showBottomSheet() },
+            onHideBottomSheet = { matchPredictorViewModel.hideBottomSheet() },
+            onShowBottomSheet = { matchPredictorViewModel.showBottomSheet() },
             match = it,
-            onIndexPass = {
-                Log.d("index : ", it.toString())
-                viewModel.setPredictHomeScore(it.first)
-                viewModel.setPredictAwayScore(it.second)
+            onIndexPass = { (homeScore, awayScore) ->
+                matchPredictorViewModel.setPredictHomeScore(homeScore)
+                matchPredictorViewModel.setPredictAwayScore(awayScore)
             },
             onSaveClick = {
+                // Create a SubmitPredictionRequest object
+                val submitPredictionRequest =  SubmitPredictionRequest(
+                    soccerMatchId = "3jaxaba41eo1xj0esrt73nnkk",
+                    tourGameDayId =1 ,
+                    tourId = 1,
+                    arrTeamId = listOf("c9swyor08g9pedxpe3n321svu","7wiwxjo7a9yudfe72ls12i4q5"),
+                    boosterId =0 ,
+                    questionId =1,
+                    betCoin =1 ,
+                    optionId = 1,
+                )
+                homeScreenViewModel.handleEvent(HomeScreenContract.Event.SubmitPrediction(submitPredictionRequest))
             },
-            content = {},
-
-            )
+            content = {}
+        )
     }
 }

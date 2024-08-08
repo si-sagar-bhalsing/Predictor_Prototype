@@ -74,16 +74,7 @@ class MatchPredictorViewModel : ViewModel() {
         _matchPrediction.value = Prediction(null, null)
     }
 
-    fun getMatchById(id: Int?): Match? {
-        for (matchDay in dummyMatchDays) {
-            for (match in matchDay.matches) {
-                if (match.matchId == id) {
-                    return match
-                }
-            }
-        }
-        return null
-    }
+
 
     data class Prediction(val predictHomeScore: Int?, val predictAwayScore: Int?)
 }

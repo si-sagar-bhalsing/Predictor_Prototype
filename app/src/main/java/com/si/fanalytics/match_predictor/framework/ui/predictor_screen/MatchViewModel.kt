@@ -5,19 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
-import com.si.fanalytics.match_predictor.business.domain.model.PredictorModel
 import com.si.fanalytics.match_predictor.business.data.utils.UseCaseResult
-import com.si.fanalytics.match_predictor.business.domain.model.SubmitPredictionRequest
+import com.si.fanalytics.match_predictor.business.domain.model.PredictorModel
 import com.si.fanalytics.match_predictor.business.interactor.GetFixturesUseCase
-import com.si.fanalytics.match_predictor.business.interactor.SubmitPredictionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class MatchViewModel @Inject constructor(
+class atchViewModel @Inject constructor(
     private val getFixturesUseCase: GetFixturesUseCase
 ) : ViewModel() {
 

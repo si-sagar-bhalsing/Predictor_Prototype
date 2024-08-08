@@ -28,13 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.si.fanalytics.match_predictor.data.model.Value
 import com.si.fanalytics.match_predictor.R
+import com.si.fanalytics.match_predictor.business.domain.model.response.Fixture
 import com.si.fanalytics.match_predictor.ui.theme.Highlight
 import com.si.fanalytics.match_predictor.ui.theme.TextColor
 
 @Composable
-fun MatchInfoCard(match: Match, onClick: (Int) -> Unit) {
+fun MatchInfoCard(match: Fixture, onClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
