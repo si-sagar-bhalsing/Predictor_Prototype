@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.si.fanalytics.match_predictor.framework.ui.home_screen.HomeScreen
-import com.si.fanalytics.match_predictor.framework.ui.predictor_screen.MatchDayScreen
 import com.si.fanalytics.match_predictor.ui.theme.Match_PredictorTheme
+import com.si.fanalytics.predictor_core.framework.ui.predictor_screen.MatchDayScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 
