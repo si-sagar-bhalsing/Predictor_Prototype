@@ -33,6 +33,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.si.fanalytics.predictor_core.business.domain.model.SubmitPredictionRequest
+import com.si.fanalytics.predictor_core.business.domain.model.requests.ApplyBoosterRequest
 import com.si.fanalytics.predictor_core.framework.ui.home_screen.HomeScreenContract
 import com.si.fanalytics.predictor_core.framework.ui.home_screen.HomeScreenViewModel
 import com.si.fanalytics.predictor_core.ui.theme.Highlight
@@ -98,16 +99,29 @@ fun MatchDayScreen(
             val matchesForMatchday = homeScreenViewModel.getMatchesForMatchday((page + 1).toString())
             LazyColumn(modifier = Modifier.padding(16.dp)) {
                 items(matchesForMatchday) { match ->
-                    MatchInfoCard(match) { matchId ->
+                    MatchInfoCard(match, onClick = { matchId ->
                         matchPredictorViewModel.setMatchId(matchId)
                         matchPredictorViewModel.showBottomSheet()
                         matchPredictorViewModel.setPage(page)
+                    }, onBoosterClick = {
+                        val boosterApplyRequest = ApplyBoosterRequest(
+                            optType = 1,
+                        tourId =  1,
+                        soccerMatchId = "3jpenyzsv80vq8cjvur2836z8",
+                        tourGameDayId = 1,
+                        boosterId = 1
+                        )
+                        homeScreenViewModel.handleEvent(HomeScreenContract.Event.ApplyBooster(boosterApplyRequest))
+
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
+                    )
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+
         }
     }
+
 
     homeScreenViewModel.getMatchById(matchPredictorViewModel.matchId.value)?.let { it ->
         BottomSheetLayout(
@@ -121,14 +135,14 @@ fun MatchDayScreen(
             },
             onSaveClick = {
                 // Create a SubmitPredictionRequest object
-                val submitPredictionRequest =  SubmitPredictionRequest(
+                val submitPredictionRequest = SubmitPredictionRequest(
                     soccerMatchId = "3jaxaba41eo1xj0esrt73nnkk",
-                    tourGameDayId =1 ,
+                    tourGameDayId = 1,
                     tourId = 1,
-                    arrTeamId = listOf("c9swyor08g9pedxpe3n321svu","7wiwxjo7a9yudfe72ls12i4q5"),
-                    boosterId =0 ,
-                    questionId =1,
-                    betCoin =1 ,
+                    arrTeamId = listOf("c9swyor08g9pedxpe3n321svu", "7wiwxjo7a9yudfe72ls12i4q5"),
+                    boosterId = 0,
+                    questionId = 1,
+                    betCoin = 1,
                     optionId = 1,
                 )
                 homeScreenViewModel.handleEvent(HomeScreenContract.Event.SubmitPrediction(submitPredictionRequest))

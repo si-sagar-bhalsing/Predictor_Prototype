@@ -37,6 +37,10 @@ class HomeScreenViewModel @Inject constructor(
             is HomeScreenContract.Event.SubmitPrediction -> {
                 submitPrediction(event.prediction)
             }
+
+            is HomeScreenContract.Event.ApplyBooster -> {
+                applyBooster(event.booster)
+            }
             // Handle other events here
         }
     }
@@ -106,16 +110,10 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    fun applyBooster() {
+    fun applyBooster(booster: ApplyBoosterRequest) {
         viewModelScope.launch {
             val result = applyBoosterUseCase.invoke(
-                ApplyBoosterRequest(
-                    boosterId = 1,
-                    tourGameDayId = 1,
-                    soccerMatchId = "43jaahbvhozemngcub81d9f6c",
-                    tourId = 1,
-                    optType = 1
-                )
+                booster
             )
             when (result) {
                 is UseCaseResult.Success -> {

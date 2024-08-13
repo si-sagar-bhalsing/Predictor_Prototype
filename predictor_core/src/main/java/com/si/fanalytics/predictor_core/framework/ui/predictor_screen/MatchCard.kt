@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ import com.si.fanalytics.predictor_core.ui.theme.Highlight
 import com.si.fanalytics.predictor_core.ui.theme.TextColor
 
 @Composable
-fun MatchInfoCard(match: Fixture, onClick: (String) -> Unit) {
+fun MatchInfoCard(match: Fixture, onClick: (String) -> Unit,onBoosterClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -95,6 +96,17 @@ fun MatchInfoCard(match: Fixture, onClick: (String) -> Unit) {
 //                    }
 //                }
             }
+            Divider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = TextColor)
+            Row(modifier = Modifier, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("Play 2x Booster", color = TextColor, fontWeight = FontWeight.Bold)
+                Icon(painter = painterResource(id = R.drawable.ic_add),
+                    contentDescription = null,
+                    tint = Highlight,
+                    modifier = Modifier.size(30.dp).clickable {
+                        onBoosterClick()
+                    })
+            }
+
         }
     }
 }
