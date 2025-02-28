@@ -1,18 +1,26 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
+//    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
+}
+
+object ProjectConfig {
+    val jvmVersion = JavaVersion.VERSION_1_8
+    const val compileSdk = 33
+    const val minSdk = 23
+    const val targetSdk = 33
 }
 
 android {
     namespace = "com.si.fanalytics.match_predictor"
-    compileSdk = 34
+    compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
         applicationId = "com.si.fanalytics.match_predictor"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
         versionCode = 1
         versionName = "1.0"
 
@@ -22,65 +30,69 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = ProjectConfig.jvmVersion
+                targetCompatibility = ProjectConfig.jvmVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        jvmTarget = ProjectConfig.jvmVersion.toString()
     }
 }
 
 dependencies {
 
-    //Android libs
-    implementation(libs.androidx.core)
-    implementation(libs.appcompat)
-    implementation(libs.google.material)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    //test lib
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.android.junit.ext)
-    androidTestImplementation(libs.test.android.espresso.core)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-    // Compose dependencies
-    implementation(platform(libs.compose))
-    implementation(libs.compose.material)
-    implementation(libs.compose.material3)
-    implementation(libs.livedata)
-    implementation(libs.compose.preview)
-    implementation(libs.compose.ui)
-    debugImplementation(libs.compose.ui)
+    // fragment navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-    //hilt
-    implementation(libs.hilt)
-    implementation(libs.hilt.navigation)
-    kapt(libs.hilt.compiler)
 
-    implementation(project(":core"))
-    implementation(project(":match_predictor"))
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.android.compiler)
+
+    // datastore
+    implementation(libs.datastore.preferences)
+
+    // google ads
+    implementation(libs.googleAds)
+
+    implementation("com.si.f1:predictor:0.0.2-12")
+
 
 }
-kapt {
-    correctErrorTypes = true
-}
-hilt {
-    enableAggregatingTask = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}
+//hilt {
+//    enableAggregatingTask = true
+//}

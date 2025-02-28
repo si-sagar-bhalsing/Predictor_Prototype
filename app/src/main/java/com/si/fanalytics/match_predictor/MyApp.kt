@@ -1,7 +1,15 @@
 package com.si.fanalytics.match_predictor
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.google.android.gms.ads.MobileAds
 
-@HiltAndroidApp
-class MyApp : Application() {}
+//@HiltAndroidApp
+class MyApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        MobileAds.initialize(this) {
+
+        }
+    }
+}
